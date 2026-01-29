@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar } from 'recharts';
-import { TrendingUp, AlertTriangle, MapPin, Truck, RefreshCw, Filter, ChevronDown } from 'lucide-react';
+import { TrendingUp, TriangleAlert, MapPin, Truck, RefreshCw, Filter, ChevronDown } from 'lucide-react';
 import { DriverStats } from '../types';
 import InfoTooltip from './InfoTooltip';
 
@@ -173,7 +173,7 @@ const DriverEPKWidget: React.FC = () => {
                         <div className="w-full sm:w-auto text-right bg-slate-900/50 p-2 rounded border border-white/5">
                              <div className="text-[10px] text-slate-500 uppercase font-bold">Top Risk Factor</div>
                              <div className="text-sm font-bold text-amber-400 flex items-center justify-end gap-1">
-                                <AlertTriangle size={14} /> {currentDriver.topEvent}
+                                <TriangleAlert size={14} /> {currentDriver.topEvent}
                              </div>
                         </div>
                      </div>

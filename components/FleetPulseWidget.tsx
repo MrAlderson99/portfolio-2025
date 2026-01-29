@@ -7,12 +7,9 @@ import {
   CartesianGrid, 
   Tooltip, 
   ResponsiveContainer,
-  Cell,
-  BarChart,
-  Bar,
-  Legend
+  Cell
 } from 'recharts';
-import { AlertTriangle, Gauge, Zap, RefreshCw, CloudRain, Sun, Cloud, DollarSign, Wrench, TrendingDown, MapPin } from 'lucide-react';
+import { TriangleAlert, Gauge, Zap, RefreshCw, CloudRain, Sun, Cloud, DollarSign, Wrench, TrendingDown } from 'lucide-react';
 import { TelemetryPoint } from '../types';
 import InfoTooltip from './InfoTooltip';
 
@@ -205,7 +202,7 @@ const FleetPulseWidget: React.FC = () => {
         </div>
          <div className="bg-red-950/10 p-4 rounded-lg border border-red-500/20 backdrop-blur-sm">
           <div className="text-red-300 text-[10px] uppercase tracking-wider mb-1 flex items-center gap-1">
-            <AlertTriangle size={12} /> Infractions
+            <TriangleAlert size={12} /> Infractions
             <InfoTooltip text="Speed > 100km/h (or > 80km/h in Rain)." />
           </div>
           <div className="text-2xl font-bold text-red-500">{metrics.infractions}</div>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Play, CheckCircle, RefreshCw, Circle, Terminal, Clock, ShieldCheck, XCircle, AlertOctagon } from 'lucide-react';
+import { Play, CheckCircle, RefreshCw, Circle, Terminal, Clock, ShieldCheck, XCircle, OctagonAlert } from 'lucide-react';
 
 interface TestStep {
     id: number;
@@ -177,7 +177,7 @@ const QAWidget: React.FC = () => {
                 </div>
             </div>
              <div className="mt-6 p-3 bg-amber-900/10 border border-amber-500/20 rounded-lg text-xs text-amber-200 flex gap-2">
-                <div className="mt-0.5"><AlertOctagon size={14}/></div>
+                <div className="mt-0.5"><OctagonAlert size={14}/></div>
                 <div>
                 <strong>Quality Insight:</strong> By running automated E2E tests for both Telemetry and XAI pipelines in a simulated CI/CD environment, we prevent regressions before they reach production.
                 </div>

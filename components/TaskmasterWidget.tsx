@@ -12,7 +12,7 @@ import {
   Briefcase, 
   Home, 
   Calendar,
-  CheckCircle2
+  CircleCheck
 } from 'lucide-react';
 import InfoTooltip from './InfoTooltip';
 
@@ -162,7 +162,7 @@ const TaskmasterWidget: React.FC = () => {
                         </div>
                         {quickWin ? (
                             <div className="bg-slate-800 p-3 rounded border border-emerald-500/30 flex items-start gap-3">
-                                <CheckCircle2 className="text-emerald-400 shrink-0" size={18} />
+                                <CircleCheck className="text-emerald-400 shrink-0" size={18} />
                                 <div>
                                     <div className="text-sm font-bold text-white">{quickWin.title}</div>
                                     <div className="text-xs text-slate-400">{quickWin.effort} mins • {quickWin.context}</div>
