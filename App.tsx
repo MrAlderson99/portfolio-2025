@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Github, 
   Linkedin, 
@@ -6,13 +6,15 @@ import {
   Server, 
   Brain, 
   ShieldCheck, 
-  Terminal,
   X,
   TrendingUp,
   GraduationCap,
   Cpu,
   Activity,
-  Zap
+  Zap,
+  Menu,
+  ChevronRight,
+  ListTodo
 } from 'lucide-react';
 import ProjectCard from './components/ProjectCard';
 import FleetPulseWidget from './components/FleetPulseWidget';
@@ -20,23 +22,24 @@ import XAIWidget from './components/XAIWidget';
 import QAWidget from './components/QAWidget';
 import DriverEPKWidget from './components/DriverEPKWidget';
 import ResilienceWidget from './components/ResilienceWidget';
+import TaskmasterWidget from './components/TaskmasterWidget';
 import CVModal from './components/CVModal';
 import { Project } from './types';
 
-// Group 1: Telemetry & Fleet (United)
+// Group 1: Telemetry & Fleet (Cyan/Blue Theme)
 const telemetryProjects: Project[] = [
   {
     id: 'telemetry-suite',
     title: "Fleet & Safety Intelligence",
-    description: "Comprehensive telemetry suite combining 'The Safety Scorecard' (Driver Coaching) and 'FleetPulse' (Operational Analytics). Real-time data processing.",
+    description: "End-to-end telemetry suite combining 'The Safety Scorecard' (Driver Coaching) and 'FleetPulse' (Operational Analytics). Features real-time ingestion pipelines.",
     tags: ['Telemetry', 'IoT', 'Big Data', 'Driver Scoring', 'Predictive Maint.'],
     link: "https://github.com/lucielton/fleet-pulse",
-    icon: <Activity className="text-emerald-400" size={24} />,
+    icon: <Activity className="text-cyan-400" size={24} />,
     isInteractive: true
   }
 ];
 
-// Group 2: XAI & Education (United)
+// Group 2: XAI & Education (Purple/Pink Theme)
 const xaiProjects: Project[] = [
   {
     id: 'xai-suite',
@@ -44,20 +47,33 @@ const xaiProjects: Project[] = [
     description: "Interactive research lab comparing Black-box vs Glass-box models. Features 'GlassBox Learner' for resilience and 'XAI Lab' for model comparison.",
     tags: ['XAI', 'SHAP', 'Education', 'Random Forest', 'Research'],
     link: "#",
-    icon: <Brain className="text-purple-400" size={24} />,
+    icon: <Brain className="text-fuchsia-400" size={24} />,
     isInteractive: true
   }
 ];
 
-// Group 3: Engineering (QA)
+// Group 3: Engineering (Orange/Amber Theme)
 const engProjects: Project[] = [
   {
     id: 'qa-suite',
     title: "Engineering Excellence",
-    description: "Automated Quality Assurance Hub. Runs real-time E2E regression tests (simulated Playwright) for Telemetry and XAI pipelines.",
+    description: "Automated Quality Assurance Hub. Runs real-time E2E regression tests (simulated Playwright) for Telemetry and XAI pipelines to ensure reliability.",
     tags: ['QA', 'CI/CD', 'Automated Testing', 'DevOps', 'Reliability'],
     link: "#",
-    icon: <ShieldCheck className="text-orange-400" size={24} />,
+    icon: <ShieldCheck className="text-amber-400" size={24} />,
+    isInteractive: true
+  }
+];
+
+// Group 4: Product Strategy (Emerald/Green Theme)
+const productProjects: Project[] = [
+  {
+    id: 'taskmaster',
+    title: "The Contextual Taskmaster",
+    description: "A productivity engine that prioritizes tasks based on Context (Location), Energy Levels, and Time Gaps. Features a dynamic sorting algorithm.",
+    tags: ['Product Strategy', 'Prioritization', 'Algorithm Design', 'UX Research'],
+    link: "#", 
+    icon: <ListTodo className="text-emerald-400" size={24} />,
     isInteractive: true
   }
 ];
@@ -67,28 +83,38 @@ export default function App() {
   const [demoTab, setDemoTab] = useState<string>('tab1');
   const [showCV, setShowCV] = useState(false);
 
+  // Lock body scroll when modal is open
+  useEffect(() => {
+    if (activeDemo || showCV) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => { document.body.style.overflow = 'unset'; };
+  }, [activeDemo, showCV]);
+
   const openDemo = (id: string) => {
     setActiveDemo(id);
-    setDemoTab('tab1'); // Reset to first tab on open
+    setDemoTab('tab1'); 
   };
 
   const renderActiveWidget = () => {
     if (activeDemo === 'telemetry-suite') {
         return (
             <div className="space-y-6">
-                <div className="flex justify-center">
-                    <div className="flex bg-slate-900/80 p-1 rounded-lg border border-slate-700 backdrop-blur-sm">
+                <div className="flex justify-center w-full">
+                    <div className="flex bg-[#0f172a]/80 p-1.5 rounded-xl border border-white/10 backdrop-blur-md shadow-lg shadow-cyan-900/20 max-w-full overflow-x-auto">
                         <button 
                             onClick={() => setDemoTab('tab1')}
-                            className={`flex items-center gap-2 px-4 py-2 text-sm font-bold rounded-md transition-all ${demoTab === 'tab1' ? 'bg-blue-600 text-white shadow-lg shadow-blue-900/20' : 'text-slate-400 hover:text-white hover:bg-slate-800'}`}
+                            className={`flex items-center gap-2 px-4 py-2 text-sm font-bold rounded-lg transition-all whitespace-nowrap ${demoTab === 'tab1' ? 'bg-cyan-600 text-white shadow-[0_0_15px_-3px_rgba(8,145,178,0.5)]' : 'text-slate-400 hover:text-white hover:bg-white/5'}`}
                         >
-                           <TrendingUp size={16}/> The Safety Scorecard
+                           <TrendingUp size={16}/> Safety Scorecard
                         </button>
                         <button 
                             onClick={() => setDemoTab('tab2')}
-                            className={`flex items-center gap-2 px-4 py-2 text-sm font-bold rounded-md transition-all ${demoTab === 'tab2' ? 'bg-emerald-600 text-white shadow-lg shadow-emerald-900/20' : 'text-slate-400 hover:text-white hover:bg-slate-800'}`}
+                            className={`flex items-center gap-2 px-4 py-2 text-sm font-bold rounded-lg transition-all whitespace-nowrap ${demoTab === 'tab2' ? 'bg-blue-600 text-white shadow-[0_0_15px_-3px_rgba(37,99,235,0.5)]' : 'text-slate-400 hover:text-white hover:bg-white/5'}`}
                         >
-                           <Server size={16}/> FleetPulse Dashboard
+                           <Server size={16}/> FleetPulse Ops
                         </button>
                     </div>
                 </div>
@@ -102,17 +128,17 @@ export default function App() {
     if (activeDemo === 'xai-suite') {
          return (
             <div className="space-y-6">
-                <div className="flex justify-center">
-                    <div className="flex bg-slate-900/80 p-1 rounded-lg border border-slate-700 backdrop-blur-sm">
+                <div className="flex justify-center w-full">
+                    <div className="flex bg-[#0f172a]/80 p-1.5 rounded-xl border border-white/10 backdrop-blur-md shadow-lg shadow-purple-900/20 max-w-full overflow-x-auto">
                         <button 
                             onClick={() => setDemoTab('tab1')}
-                            className={`flex items-center gap-2 px-4 py-2 text-sm font-bold rounded-md transition-all ${demoTab === 'tab1' ? 'bg-teal-600 text-white shadow-lg shadow-teal-900/20' : 'text-slate-400 hover:text-white hover:bg-slate-800'}`}
+                            className={`flex items-center gap-2 px-4 py-2 text-sm font-bold rounded-lg transition-all whitespace-nowrap ${demoTab === 'tab1' ? 'bg-teal-600 text-white shadow-[0_0_15px_-3px_rgba(13,148,136,0.5)]' : 'text-slate-400 hover:text-white hover:bg-white/5'}`}
                         >
                            <GraduationCap size={16}/> GlassBox Learner
                         </button>
                         <button 
                             onClick={() => setDemoTab('tab2')}
-                            className={`flex items-center gap-2 px-4 py-2 text-sm font-bold rounded-md transition-all ${demoTab === 'tab2' ? 'bg-purple-600 text-white shadow-lg shadow-purple-900/20' : 'text-slate-400 hover:text-white hover:bg-slate-800'}`}
+                            className={`flex items-center gap-2 px-4 py-2 text-sm font-bold rounded-lg transition-all whitespace-nowrap ${demoTab === 'tab2' ? 'bg-fuchsia-600 text-white shadow-[0_0_15px_-3px_rgba(192,38,211,0.5)]' : 'text-slate-400 hover:text-white hover:bg-white/5'}`}
                         >
                            <Cpu size={16}/> XAI Model Lab
                         </button>
@@ -126,60 +152,67 @@ export default function App() {
     }
 
     if (activeDemo === 'qa-suite') return <QAWidget />;
+
+    if (activeDemo === 'taskmaster') return <TaskmasterWidget />;
     
     return null;
   };
 
   return (
-    <div className="min-h-screen bg-slate-900 text-slate-100 font-sans selection:bg-blue-500/30">
+    <div className="min-h-screen bg-[#020617] text-slate-100 font-sans selection:bg-cyan-500/30 overflow-x-hidden">
       
-      {/* Background decoration */}
+      {/* Background decoration - Adjusted for Neon vibe */}
       <div className="fixed inset-0 z-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-blue-500/5 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-emerald-500/5 rounded-full blur-3xl"></div>
+        <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-blue-600/10 rounded-full blur-[120px] animate-pulse"></div>
+        <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-purple-600/10 rounded-full blur-[120px] animate-pulse" style={{animationDelay: '2s'}}></div>
+        <div className="absolute top-[40%] left-[30%] w-[30%] h-[30%] bg-cyan-600/5 rounded-full blur-[100px] animate-float"></div>
       </div>
 
       <div className="relative z-10">
         {/* Header / Hero */}
-        <header className="max-w-7xl mx-auto pt-12 pb-12 px-6">
-          <div className="flex flex-col md:flex-row gap-8 items-start md:items-center">
-            <div className="flex-1">
-              <div className="flex items-center gap-2 mb-4">
-                <span className="px-3 py-1 rounded-full bg-slate-800 border border-slate-700 text-xs font-mono text-emerald-400 animate-pulse">
+        <header className="max-w-7xl mx-auto pt-16 pb-16 px-6 md:px-8">
+          <div className="flex flex-col md:flex-row gap-10 items-start md:items-center">
+            <div className="flex-1 space-y-6">
+              <div className="flex flex-wrap items-center gap-3">
+                <span className="px-3 py-1 rounded-full bg-cyan-950/30 border border-cyan-500/30 text-xs font-mono text-cyan-400 animate-pulse shadow-[0_0_10px_-3px_rgba(34,211,238,0.4)]">
                   OPEN TO WORK
                 </span>
-                <span className="px-3 py-1 rounded-full bg-slate-800 border border-slate-700 text-xs font-mono text-blue-400">
+                <span className="px-3 py-1 rounded-full bg-slate-800/50 border border-slate-700 text-xs font-mono text-blue-300">
                   PO + DEV + DATA
                 </span>
               </div>
               
-              <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-400 via-indigo-400 to-emerald-400 bg-clip-text text-transparent mb-4 tracking-tight">
-                Lucielton Manoel
-              </h1>
+              <div className="space-y-2">
+                <h1 className="text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight">
+                  <span className="bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500">
+                    Lucielton Manoel
+                  </span>
+                </h1>
+                <p className="text-xl md:text-2xl text-slate-400 font-light">
+                  Technical Product Owner & Data Strategist
+                </p>
+              </div>
               
-              <p className="text-xl text-slate-400 font-light mb-2">
-                Technical Product Owner & Data Strategist
-              </p>
-              
-              <p className="text-slate-500 max-w-2xl leading-relaxed">
+              <p className="text-slate-400 max-w-2xl leading-relaxed text-base md:text-lg">
                 MSc Student in AI (XAI) | Telemetry Specialist | Ex-Full Stack.
-                <br />
+                <br className="hidden md:block"/>
                 I bridge the gap between business strategy and technical execution using a 
-                <span className="text-slate-300 font-medium"> "Show, Don't Tell"</span> approach.
+                <strong className="text-slate-200 border-b border-cyan-500/50 pb-0.5"> "Show, Don't Tell"</strong> approach.
               </p>
               
-              <div className="flex flex-wrap gap-4 mt-8">
+              <div className="flex flex-wrap gap-4 pt-4">
                 <button 
                   onClick={() => setShowCV(true)}
-                  className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-lg transition-all shadow-lg shadow-blue-900/20 font-medium hover:scale-105 active:scale-95"
+                  className="group flex items-center gap-2 bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-500 hover:to-cyan-500 text-white px-6 py-3 rounded-lg transition-all shadow-[0_0_20px_-5px_rgba(59,130,246,0.4)] font-semibold hover:scale-105 active:scale-95"
                 >
                   <FileText size={18} /> View CV
+                  <ChevronRight size={16} className="opacity-0 -ml-2 group-hover:opacity-100 group-hover:ml-0 transition-all" />
                 </button>
-                <a href="https://linkedin.com/in/lucielton" target="_blank" rel="noreferrer" className="p-2.5 border border-slate-700 bg-slate-800/50 rounded-lg hover:bg-slate-800 hover:border-blue-500/50 text-slate-400 hover:text-white transition-all">
-                  <Linkedin size={20} />
+                <a href="https://linkedin.com/in/lucielton" target="_blank" rel="noreferrer" className="p-3 border border-white/10 bg-white/5 rounded-lg hover:bg-white/10 hover:border-blue-400/50 hover:text-blue-400 hover:shadow-[0_0_15px_-5px_rgba(59,130,246,0.3)] text-slate-400 transition-all">
+                  <Linkedin size={22} />
                 </a>
-                <a href="https://github.com/lucielton" target="_blank" rel="noreferrer" className="p-2.5 border border-slate-700 bg-slate-800/50 rounded-lg hover:bg-slate-800 hover:border-emerald-500/50 text-slate-400 hover:text-white transition-all">
-                  <Github size={20} />
+                <a href="https://github.com/lucielton" target="_blank" rel="noreferrer" className="p-3 border border-white/10 bg-white/5 rounded-lg hover:bg-white/10 hover:border-purple-400/50 hover:text-purple-400 hover:shadow-[0_0_15px_-5px_rgba(168,85,247,0.3)] text-slate-400 transition-all">
+                  <Github size={22} />
                 </a>
               </div>
             </div>
@@ -188,14 +221,16 @@ export default function App() {
 
         {/* Modal/Overlay for Demos */}
         {activeDemo && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm animate-in fade-in duration-200">
-            <div className="w-full max-w-5xl relative">
-              <button 
-                onClick={() => setActiveDemo(null)}
-                className="absolute -top-10 right-0 text-slate-400 hover:text-white transition-colors flex items-center gap-2 group bg-slate-900/50 px-3 py-1 rounded-full border border-slate-700"
-              >
-                Close Demo <X size={20} className="group-hover:rotate-90 transition-transform"/>
-              </button>
+          <div className="fixed inset-0 z-50 flex items-start md:items-center justify-center bg-[#000000]/80 backdrop-blur-sm animate-in fade-in duration-200 overflow-y-auto pt-4 pb-4 md:p-4">
+            <div className="w-full max-w-6xl relative my-auto px-2 md:px-0">
+              <div className="flex justify-end mb-4 sticky top-0 z-50 md:static">
+                <button 
+                    onClick={() => setActiveDemo(null)}
+                    className="text-slate-300 hover:text-white hover:bg-red-500/20 hover:border-red-500/50 transition-all flex items-center gap-2 group bg-[#0f172a]/90 backdrop-blur-md px-4 py-2 rounded-full border border-white/10 shadow-lg"
+                >
+                    Close Demo <X size={18} className="group-hover:rotate-90 transition-transform"/>
+                </button>
+              </div>
               {renderActiveWidget()}
             </div>
           </div>
@@ -205,21 +240,22 @@ export default function App() {
         {showCV && <CVModal onClose={() => setShowCV(false)} />}
 
         {/* Main Content Grid */}
-        <main className="max-w-7xl mx-auto px-6 pb-24">
-          <div className="flex items-center gap-3 mb-8 border-b border-slate-800 pb-4">
-              <Zap size={24} className="text-yellow-400" />
-              <h2 className="text-2xl font-bold text-slate-200">Portfolio Highlights</h2>
+        <main className="max-w-7xl mx-auto px-6 md:px-8 pb-24">
+          <div className="flex items-center gap-3 mb-10 border-b border-white/5 pb-4">
+              <Zap size={24} className="text-yellow-400 animate-pulse" />
+              <h2 className="text-2xl font-bold text-slate-200 tracking-tight">Portfolio Highlights</h2>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
               
               {/* Column 1: Telemetry */}
               <div className="flex flex-col gap-6">
                 {telemetryProjects.map((proj) => (
                     <ProjectCard 
-                    key={proj.id} 
-                    project={proj} 
-                    onInteract={() => openDemo(proj.id)}
+                        key={proj.id} 
+                        project={proj} 
+                        onInteract={() => openDemo(proj.id)}
+                        theme="cyan"
                     />
                 ))}
               </div>
@@ -228,9 +264,10 @@ export default function App() {
               <div className="flex flex-col gap-6">
                  {xaiProjects.map((proj) => (
                     <ProjectCard 
-                    key={proj.id} 
-                    project={proj} 
-                    onInteract={() => openDemo(proj.id)}
+                        key={proj.id} 
+                        project={proj} 
+                        onInteract={() => openDemo(proj.id)}
+                        theme="purple"
                     />
                 ))}
               </div>
@@ -239,9 +276,22 @@ export default function App() {
               <div className="flex flex-col gap-6">
                 {engProjects.map((proj) => (
                     <ProjectCard 
-                    key={proj.id} 
-                    project={proj} 
-                    onInteract={() => openDemo(proj.id)}
+                        key={proj.id} 
+                        project={proj} 
+                        onInteract={() => openDemo(proj.id)}
+                        theme="amber"
+                    />
+                ))}
+              </div>
+
+              {/* Column 4: Product Strategy */}
+              <div className="flex flex-col gap-6">
+                {productProjects.map((proj) => (
+                    <ProjectCard 
+                        key={proj.id} 
+                        project={proj} 
+                        onInteract={() => openDemo(proj.id)}
+                        theme="emerald"
                     />
                 ))}
               </div>
@@ -250,9 +300,9 @@ export default function App() {
         </main>
 
         {/* Footer */}
-        <footer className="border-t border-slate-800 py-12 text-center text-slate-500 text-sm">
-          <p>© {new Date().getFullYear()} Lucielton Manoel. Built with React & Tailwind.</p>
-          <p className="mt-2 text-xs">Strategy: "Show, Don't Tell"</p>
+        <footer className="border-t border-white/5 py-12 text-center text-slate-500 text-sm bg-[#010409]">
+          <p>© {new Date().getFullYear()} Lucielton Manoel. Built with <span className="text-cyan-500">React</span>, <span className="text-purple-500">Vite</span> & <span className="text-blue-500">Tailwind</span>.</p>
+          <p className="mt-2 text-xs opacity-60">Strategy: "Show, Don't Tell"</p>
         </footer>
       </div>
     </div>

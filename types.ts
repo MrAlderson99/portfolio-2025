@@ -34,4 +34,6 @@ export interface DriverStats {
   epk: number; // Events per Kilometer
   riskLevel: 'Low' | 'Medium' | 'High';
   topEvent: string;
+  city: string;
+  vehicle: string;
 }

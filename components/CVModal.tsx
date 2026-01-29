@@ -211,16 +211,16 @@ const CVModal: React.FC<CVModalProps> = ({ onClose }) => {
   const resume = resumeData[lang];
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/90 backdrop-blur-sm animate-in fade-in duration-200">
-      <div className="bg-slate-900 w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-xl border border-slate-700 shadow-2xl relative flex flex-col">
+    <div className="fixed inset-0 z-[60] flex items-center justify-center p-2 sm:p-4 bg-black/90 backdrop-blur-sm animate-in fade-in duration-200">
+      <div className="bg-[#0b101a] w-full max-w-4xl max-h-[95vh] rounded-xl border border-white/10 shadow-2xl relative flex flex-col overflow-hidden">
         {/* Toolbar */}
-        <div className="sticky top-0 z-10 flex justify-between items-center p-4 bg-slate-900/95 border-b border-slate-800 backdrop-blur">
+        <div className="flex-shrink-0 flex justify-between items-center p-4 bg-[#020617] border-b border-white/10">
             <div className="flex items-center gap-2 text-slate-100 font-bold">
                 <FileText className="text-blue-500" /> Curriculum Vitae
             </div>
-            <div className="flex gap-3 items-center">
+            <div className="flex gap-2 items-center">
                 {/* Language Toggle */}
-                <div className="flex bg-slate-800 rounded-lg p-1 border border-slate-700">
+                <div className="flex bg-[#0f172a] rounded-lg p-1 border border-white/10">
                     <button 
                         onClick={() => setLang('en')}
                         className={`flex items-center gap-1 px-3 py-1 text-xs font-bold rounded transition-colors ${lang === 'en' ? 'bg-blue-600 text-white' : 'text-slate-400 hover:text-white'}`}
@@ -235,27 +235,25 @@ const CVModal: React.FC<CVModalProps> = ({ onClose }) => {
                     </button>
                 </div>
 
-                <div className="h-6 w-px bg-slate-700 mx-1"></div>
-
                 <button onClick={onClose} className="p-2 text-slate-400 hover:text-red-400 transition-colors rounded hover:bg-slate-800">
                     <X size={20} />
                 </button>
             </div>
         </div>
         
-        {/* Content */}
-        <div className="p-6 md:p-10 space-y-10 text-slate-300">
+        {/* Scrollable Content */}
+        <div className="flex-grow overflow-y-auto p-4 md:p-8 space-y-8 text-slate-300 custom-scrollbar">
             {/* Header */}
-            <div className="flex flex-col md:flex-row justify-between gap-6 border-b border-slate-800 pb-8">
+            <div className="flex flex-col md:flex-row justify-between gap-6 border-b border-white/5 pb-8">
                 <div>
-                    <h1 className="text-3xl font-bold text-white mb-2">{resume.basics.name}</h1>
+                    <h1 className="text-3xl font-bold text-white mb-2 tracking-tight">{resume.basics.name}</h1>
                     <p className="text-lg text-emerald-400 font-medium">{resume.basics.label}</p>
                     <p className="text-slate-500 mt-4 max-w-2xl leading-relaxed text-sm">{resume.basics.summary}</p>
                 </div>
-                <div className="space-y-3 text-sm text-slate-400 min-w-[200px]">
-                    <div className="flex items-center gap-2"><MapPin size={14}/> {resume.basics.location}</div>
-                    <div className="flex items-center gap-2"><Mail size={14}/> {resume.basics.email}</div>
-                    <div className="flex items-center gap-2"><Linkedin size={14}/> {resume.basics.linkedin}</div>
+                <div className="space-y-3 text-sm text-slate-400 min-w-[200px] bg-[#0f172a]/30 p-4 rounded-lg border border-white/5 h-fit">
+                    <div className="flex items-center gap-2"><MapPin size={14} className="text-blue-400"/> {resume.basics.location}</div>
+                    <div className="flex items-center gap-2"><Mail size={14} className="text-blue-400"/> {resume.basics.email}</div>
+                    <div className="flex items-center gap-2"><Linkedin size={14} className="text-blue-400"/> {resume.basics.linkedin}</div>
                 </div>
             </div>
 
@@ -264,22 +262,27 @@ const CVModal: React.FC<CVModalProps> = ({ onClose }) => {
                 <div className="md:col-span-2 space-y-8">
                     {/* Experience */}
                     <section>
-                        <h3 className="text-lg font-bold text-white mb-6 flex items-center gap-2">
+                        <h3 className="text-lg font-bold text-white mb-6 flex items-center gap-2 border-b border-blue-500/30 pb-2 w-fit">
                             <Briefcase size={18} className="text-blue-500"/> {resume.labels.experience}
                         </h3>
                         <div className="space-y-8 border-l-2 border-slate-800 ml-2 pl-6">
                             {resume.work.map((job, idx) => (
-                                <div key={idx} className="relative">
-                                    <span className="absolute -left-[33px] top-1.5 w-3.5 h-3.5 rounded-full bg-slate-700 ring-4 ring-slate-900"></span>
+                                <div key={idx} className="relative group">
+                                    <span className="absolute -left-[33px] top-1.5 w-3.5 h-3.5 rounded-full bg-slate-700 ring-4 ring-[#0b101a] group-hover:bg-blue-500 transition-colors"></span>
                                     <div className="flex flex-col sm:flex-row sm:justify-between sm:items-baseline mb-1">
-                                        <h4 className="text-base font-bold text-slate-200">{job.name}</h4>
-                                        <span className="text-xs font-mono text-slate-500">{job.period}</span>
+                                        <h4 className="text-base font-bold text-slate-200 group-hover:text-blue-400 transition-colors">{job.name}</h4>
+                                        <span className="text-xs font-mono text-slate-500 bg-slate-900 px-2 py-0.5 rounded border border-white/5">{job.period}</span>
                                     </div>
                                     <div className="text-sm text-blue-400 mb-2 font-medium">{job.position}</div>
-                                    {job.summary && <p className="text-sm text-slate-400 mb-2 italic">{job.summary}</p>}
+                                    {job.summary && <p className="text-sm text-slate-400 mb-3 italic leading-relaxed">{job.summary}</p>}
                                     {job.highlights && (
-                                        <ul className="list-disc pl-4 space-y-1 text-sm text-slate-400 marker:text-slate-600">
-                                            {job.highlights.map((h, i) => <li key={i}>{h}</li>)}
+                                        <ul className="space-y-1.5">
+                                            {job.highlights.map((h, i) => (
+                                                <li key={i} className="text-sm text-slate-400 flex items-start gap-2">
+                                                    <span className="w-1.5 h-1.5 rounded-full bg-slate-600 mt-1.5 flex-shrink-0"></span>
+                                                    {h}
+                                                </li>
+                                            ))}
                                         </ul>
                                     )}
                                 </div>
@@ -289,21 +292,26 @@ const CVModal: React.FC<CVModalProps> = ({ onClose }) => {
 
                     {/* Research */}
                     <section>
-                         <h3 className="text-lg font-bold text-white mb-6 flex items-center gap-2">
+                         <h3 className="text-lg font-bold text-white mb-6 flex items-center gap-2 border-b border-purple-500/30 pb-2 w-fit">
                             <Globe size={18} className="text-purple-500"/> {resume.labels.research}
                         </h3>
                          <div className="space-y-6 border-l-2 border-slate-800 ml-2 pl-6">
                             {resume.research.map((res, idx) => (
-                                <div key={idx} className="relative">
-                                    <span className="absolute -left-[33px] top-1.5 w-3.5 h-3.5 rounded-full bg-purple-900 ring-4 ring-slate-900"></span>
+                                <div key={idx} className="relative group">
+                                    <span className="absolute -left-[33px] top-1.5 w-3.5 h-3.5 rounded-full bg-purple-900 ring-4 ring-[#0b101a] group-hover:bg-purple-500 transition-colors"></span>
                                     <div className="flex flex-col sm:flex-row sm:justify-between sm:items-baseline mb-1">
-                                        <h4 className="text-base font-bold text-slate-200">{res.name}</h4>
-                                        <span className="text-xs font-mono text-slate-500">{res.period}</span>
+                                        <h4 className="text-base font-bold text-slate-200 group-hover:text-purple-400 transition-colors">{res.name}</h4>
+                                        <span className="text-xs font-mono text-slate-500 bg-slate-900 px-2 py-0.5 rounded border border-white/5">{res.period}</span>
                                     </div>
                                     <div className="text-sm text-purple-400 mb-2 font-medium">{res.position}</div>
                                     {res.summary && <p className="text-sm text-slate-400 mb-2 italic">{res.summary}</p>}
-                                    <ul className="list-disc pl-4 space-y-1 text-sm text-slate-400 marker:text-slate-600">
-                                        {res.highlights.map((h, i) => <li key={i}>{h}</li>)}
+                                    <ul className="space-y-1.5">
+                                        {res.highlights.map((h, i) => (
+                                            <li key={i} className="text-sm text-slate-400 flex items-start gap-2">
+                                                <span className="w-1.5 h-1.5 rounded-full bg-purple-900/50 mt-1.5 flex-shrink-0"></span>
+                                                {h}
+                                            </li>
+                                        ))}
                                     </ul>
                                 </div>
                             ))}
@@ -320,11 +328,11 @@ const CVModal: React.FC<CVModalProps> = ({ onClose }) => {
                         </h3>
                         <div className="space-y-4">
                             {resume.education.map((edu, idx) => (
-                                <div key={idx} className="bg-slate-800/30 p-4 rounded-lg border border-slate-700/50">
+                                <div key={idx} className="bg-[#0f172a]/30 p-4 rounded-lg border border-white/5 hover:border-emerald-500/30 transition-colors">
                                     <div className="font-bold text-slate-200 text-sm">{edu.area}</div>
                                     <div className="text-xs text-slate-400 mt-1">{edu.institution}</div>
-                                    <div className="text-xs text-slate-500 mt-2 font-mono">{edu.period}</div>
-                                    <div className="text-xs text-emerald-400 mt-1">{edu.detail}</div>
+                                    <div className="text-xs text-slate-500 mt-2 font-mono bg-[#020617] inline-block px-1 rounded">{edu.period}</div>
+                                    <div className="text-xs text-emerald-400 mt-2">{edu.detail}</div>
                                 </div>
                             ))}
                         </div>
@@ -336,22 +344,22 @@ const CVModal: React.FC<CVModalProps> = ({ onClose }) => {
                             <Code size={18} className="text-orange-500"/> {resume.labels.skills}
                         </h3>
                         
-                        <div className="mb-4">
-                            <div className="text-xs font-bold text-slate-500 uppercase mb-2">{resume.labels.prod}</div>
-                            <div className="flex flex-wrap gap-1.5">
-                                {resume.skills.product.map(s => <span key={s} className="px-2 py-1 bg-slate-800 rounded text-[10px] text-slate-300 border border-slate-700">{s}</span>)}
+                        <div className="mb-5">
+                            <div className="text-[10px] font-bold text-slate-500 uppercase mb-2 tracking-wider">{resume.labels.prod}</div>
+                            <div className="flex flex-wrap gap-2">
+                                {resume.skills.product.map(s => <span key={s} className="px-2.5 py-1 bg-[#0f172a] rounded text-[11px] text-slate-300 border border-white/10 hover:border-orange-500/50 transition-colors">{s}</span>)}
                             </div>
                         </div>
-                        <div className="mb-4">
-                            <div className="text-xs font-bold text-slate-500 uppercase mb-2">Data & AI</div>
-                            <div className="flex flex-wrap gap-1.5">
-                                {resume.skills.data.map(s => <span key={s} className="px-2 py-1 bg-slate-800 rounded text-[10px] text-slate-300 border border-slate-700">{s}</span>)}
+                        <div className="mb-5">
+                            <div className="text-[10px] font-bold text-slate-500 uppercase mb-2 tracking-wider">Data & AI</div>
+                            <div className="flex flex-wrap gap-2">
+                                {resume.skills.data.map(s => <span key={s} className="px-2.5 py-1 bg-[#0f172a] rounded text-[11px] text-slate-300 border border-white/10 hover:border-purple-500/50 transition-colors">{s}</span>)}
                             </div>
                         </div>
                         <div>
-                            <div className="text-xs font-bold text-slate-500 uppercase mb-2">{resume.labels.eng}</div>
-                            <div className="flex flex-wrap gap-1.5">
-                                {resume.skills.eng.map(s => <span key={s} className="px-2 py-1 bg-slate-800 rounded text-[10px] text-slate-300 border border-slate-700">{s}</span>)}
+                            <div className="text-[10px] font-bold text-slate-500 uppercase mb-2 tracking-wider">{resume.labels.eng}</div>
+                            <div className="flex flex-wrap gap-2">
+                                {resume.skills.eng.map(s => <span key={s} className="px-2.5 py-1 bg-[#0f172a] rounded text-[11px] text-slate-300 border border-white/10 hover:border-blue-500/50 transition-colors">{s}</span>)}
                             </div>
                         </div>
                     </section>
